@@ -1,0 +1,7 @@
+{
+    "pack": {
+        "description": "Easy Log Layer resources",
+        "pack_format": 34,
+        "supported_formats": [34, 48]
+    }
+}

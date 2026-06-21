@@ -1,0 +1,16 @@
+# build / gradle artifacts
+build/
+.gradle/
+out/
+bin/
+run/
+runs/
+# IDE
+.idea/
+*.iml
+.settings/
+.classpath
+.project
+.vscode/
+# logs
+*.log
