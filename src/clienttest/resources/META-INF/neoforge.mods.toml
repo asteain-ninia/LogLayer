@@ -1,0 +1,8 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="MIT"
+
+[[mods]]
+modId="loglayertest"
+version="1"
+displayName="Easy Log Layer client prediction check"
