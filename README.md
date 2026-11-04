@@ -53,4 +53,5 @@ Requires JDK 21.
 ./gradlew build
 ```
 
-The mod jar is produced at `build/libs/loglayer-1.0.0.jar`.
+The mod jar is produced at `build/libs/loglayer-<version>.jar`, where `<version>` is
+`mod_version` from `gradle.properties`.
