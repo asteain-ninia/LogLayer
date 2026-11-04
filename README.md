@@ -13,8 +13,9 @@ along the direction you are facing.**
 - Placing against a **side face** keeps vanilla behaviour (vanilla already orients the log along
   the clicked face), so you never lose that control.
 
-No items, no recipes, no GUI — just a better placement feel. There is no placement flicker: the
-correct horizontal orientation is predicted client-side, so the log appears flat immediately.
+No items, no recipes, no GUI — just a better placement feel. The reorientation is applied on the
+server, so the log may briefly show its vanilla (vertical) orientation before snapping flat —
+usually only a few frames in single-player, longer on a high-latency server (see *How it works*).
 
 ## Mod log support
 
@@ -40,6 +41,9 @@ Everything runs on the logical server via `BlockEvent.EntityPlaceEvent` — ther
 client-only code and no networking, so single-player and dedicated servers behave identically.
 When a player places a log-like block, its orientation is set to the player's horizontal facing
 axis (`axis` property for standard logs; the custom `state` enum for IndustrialUpgrade woods).
+NeoForge posts `EntityPlaceEvent` only on the server (from `CommonHooks#onPlaceItemIntoWorld`,
+which `ItemStack#useOn` skips on the client), so the client's own placement prediction is left
+untouched and shows the vanilla orientation until the server's block update replaces it.
 
 ## Building
 
@@ -49,4 +53,5 @@ Requires JDK 21.
 ./gradlew build
 ```
 
-The mod jar is produced at `build/libs/loglayer-1.0.0.jar`.
+The mod jar is produced at `build/libs/loglayer-<version>.jar`, where `<version>` is
+`mod_version` from `gradle.properties`.

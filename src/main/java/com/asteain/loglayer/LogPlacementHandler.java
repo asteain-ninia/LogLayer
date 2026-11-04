@@ -17,11 +17,15 @@ import net.neoforged.neoforge.event.level.BlockEvent;
 /**
  * Reorients freshly placed logs so they lie horizontally along the direction the player faces.
  *
- * <p>Triggered by {@link BlockEvent.EntityPlaceEvent}, which fires during {@code ItemStack#useOn}
- * on both the client (placement prediction) and the server. We deliberately run on <em>both</em>
- * sides so the client predicts the final horizontal state immediately -- otherwise the client
- * would briefly show the vanilla vertical log before the server's correction arrived (a flicker).
- * The result is deterministic from the player's facing, so client and server always agree.
+ * <p>Triggered by {@link BlockEvent.EntityPlaceEvent}. In NeoForge 1.21.1, for item placement that
+ * event is posted only from {@code CommonHooks#onPlaceItemIntoWorld}, which {@code ItemStack#useOn} calls solely when
+ * {@code !level.isClientSide}; on the client {@code useOn} goes straight to the vanilla item code.
+ * This handler therefore runs on the <em>logical server only</em> and takes no part in the
+ * client's placement prediction: the client first shows the vanilla (vertical) log and switches
+ * to the flat orientation once the server's block update and placement ack arrive. A brief
+ * flicker is thus possible -- usually a few frames in single-player, longer on a high-latency
+ * server. The orientation depends only on the player's facing, so the server's correction is
+ * always the one the player expects and no extra networking is required.
  */
 public final class LogPlacementHandler {
 
