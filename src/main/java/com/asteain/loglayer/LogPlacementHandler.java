@@ -17,8 +17,8 @@ import net.neoforged.neoforge.event.level.BlockEvent;
 /**
  * Reorients freshly placed logs so they lie horizontally along the direction the player faces.
  *
- * <p>Triggered by {@link BlockEvent.EntityPlaceEvent}. In NeoForge 1.21.1 that event is posted only
- * from {@code CommonHooks#onPlaceItemIntoWorld}, which {@code ItemStack#useOn} calls solely when
+ * <p>Triggered by {@link BlockEvent.EntityPlaceEvent}. In NeoForge 1.21.1, for item placement that
+ * event is posted only from {@code CommonHooks#onPlaceItemIntoWorld}, which {@code ItemStack#useOn} calls solely when
  * {@code !level.isClientSide}; on the client {@code useOn} goes straight to the vanilla item code.
  * This handler therefore runs on the <em>logical server only</em> and takes no part in the
  * client's placement prediction: the client first shows the vanilla (vertical) log and switches
