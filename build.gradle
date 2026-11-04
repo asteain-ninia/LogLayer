@@ -20,8 +20,25 @@ repositories {
     mavenCentral()
 }
 
+// Development-only check of the client's placement prediction (loglayertest); never included in the mod jar.
+sourceSets {
+    clienttest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
 neoForge {
     version = project.neo_version
+
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+        loglayertest {
+            sourceSet sourceSets.clienttest
+        }
+    }
 
     runs {
         client {
@@ -31,16 +48,34 @@ neoForge {
             server()
             programArgument '--nogui'
         }
+        // A real client: makes a flat world, places logs, compares the client's prediction with the server, quits.
+        clientCheck {
+            client()
+            gameDirectory = project.file('run-clientcheck')
+            sourceSet = sourceSets.clienttest
+            loadedMods = [neoForge.mods.named(mod_id).get(), neoForge.mods.named('loglayertest').get()]
+            programArguments.addAll '--width', '854', '--height', '480'
+        }
         configureEach {
             systemProperty 'forge.logging.markers', 'REGISTRIES'
             logLevel = org.slf4j.event.Level.DEBUG
         }
     }
 
-    mods {
-        "${mod_id}" {
-            sourceSet sourceSets.main
-        }
+}
+
+neoForge.addModdingDependenciesTo(sourceSets.clienttest)
+
+tasks.named('runClientCheck').configure {
+    doFirst {
+        delete file('run-clientcheck/loglayer-check.txt')
+        delete file('run-clientcheck/saves/loglayercheck')
+    }
+    doLast {
+        def report = file('run-clientcheck/loglayer-check.txt')
+        if (!report.exists()) throw new GradleException('clientCheck produced no result')
+        logger.lifecycle(report.text)
+        if (!report.text.startsWith('PASS ')) throw new GradleException('clientCheck failed')
     }
 }
 
