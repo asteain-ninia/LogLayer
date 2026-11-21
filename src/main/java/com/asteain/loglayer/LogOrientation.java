@@ -27,9 +27,12 @@ public final class LogOrientation {
      *
      * <p>The answer depends only on the config, the player's sneaking and facing, and the state, so the client's placement
      * prediction and the server compute the same result and the log appears flat at once.</p>
+     *
+     * <p>The config is a server config, which the server sends to each client as it joins. A client on a server without
+     * this mod never receives it, so the client leaves the log as placed.</p>
      */
     public static BlockState layFlat(BlockState placed, Player player) {
-        if (placed == null || player == null || !Config.ENABLED.get()) {
+        if (placed == null || player == null || !Config.SPEC.isLoaded() || !Config.ENABLED.get()) {
             return placed;
         }
         if (Config.REQUIRE_SNEAK.get() && !player.isShiftKeyDown()) {

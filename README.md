@@ -26,7 +26,9 @@ hard dependency, so nothing breaks if the mod is absent or updated).
 
 ## Configuration
 
-Generated at `config/loglayer-common.toml` on first launch:
+A server config, generated at `config/loglayer-server.toml` on first launch (a copy in a world's
+`serverconfig/` folder overrides it for that world). The server sends it to each client as it joins,
+so the client always uses the server's values:
 
 | Option | Default | Meaning |
 | --- | --- | --- |
@@ -48,14 +50,13 @@ client-only code and no networking, so single-player and dedicated servers behav
   still laid flat, but the client first shows the vertical log until the server's block update
   arrives (a brief flicker). With the mod on the client only, the client predicts a flat log and the
   server's vertical one replaces it.
-- The config is read on each side, so keep `requireSneak` and the other options the same on the
-  client and the server; otherwise the server's choice wins after a brief flicker.
 - A server-side backstop (`BlockEvent.EntityPlaceEvent`, which NeoForge posts on the server only)
   still lays flat logs placed by modded items that do not place through `BlockItem`; those may
   flicker as before.
 
 Up to 1.1.0 the reorientation was done only in that server-side event, after the block was set, so
-the client always showed the vertical log first.
+the client always showed the vertical log first. Up to 1.1.0 the config was also a common config
+(`config/loglayer-common.toml`, read separately on each side); 1.2.0 no longer reads that file.
 
 ## Building
 

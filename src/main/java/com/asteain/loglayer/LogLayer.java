@@ -21,8 +21,10 @@ public final class LogLayer {
     public static final String MOD_ID = "loglayer";
 
     public LogLayer(IEventBus modBus, ModContainer container) {
-        // Configuration file: <instance>/config/loglayer-common.toml
-        container.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        // Configuration file: <instance>/config/loglayer-server.toml (a copy in <world>/serverconfig/ overrides it for
+        // that world). A server config is sent to every client as it joins, so the client's placement prediction always
+        // uses the server's values.
+        container.registerConfig(ModConfig.Type.SERVER, Config.SPEC);
 
         // The backstop for placements outside BlockItem (the main path is the mixin).
         NeoForge.EVENT_BUS.register(new LogPlacementHandler());

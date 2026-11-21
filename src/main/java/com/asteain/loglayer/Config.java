@@ -3,8 +3,8 @@ package com.asteain.loglayer;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 /**
- * Common configuration for Easy Log Layer. Generated at
- * {@code <instance>/config/loglayer-common.toml} on first run.
+ * Server configuration for Easy Log Layer. Generated at {@code <instance>/config/loglayer-server.toml}; a copy in
+ * {@code <world>/serverconfig/} overrides it for that world. The server sends it to each client as it joins.
  */
 public final class Config {
 
