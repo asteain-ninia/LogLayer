@@ -86,3 +86,8 @@ before the server answers — already has the server's orientation. The result i
 part of the mod jar. (With the mixin left out, the two sneaking cases fail: the client predicts `axis=y`.)
 
 There is no CI; the build and the client check are run by hand before each release.
+
+## Releases
+
+Every version bump gets a git tag `v<version>` on `main` and a GitHub Release with the built jar
+attached, so the mod can be downloaded without building it.
