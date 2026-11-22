@@ -19,10 +19,12 @@ no flicker, when the mod is installed on both the client and the server (see *Ho
 ## Mod log support
 
 Works on every block in the `#minecraft:logs` tag, which means **all vanilla logs, woods,
-stems and hyphae**, plus any modded logs that register into that tag. From the target
-modpack that includes **IndustrialUpgrade's rubber / swamp rubber / tropical rubber woods**,
-which use a non-standard orientation property — they are handled explicitly (by name, with no
-hard dependency, so nothing breaks if the mod is absent or updated).
+stems and hyphae**, plus any modded logs that register into that tag. A block outside the tag is
+left alone (unless `affectAllAxisBlocks` is on and it has the vanilla axis property).
+
+**IndustrialUpgrade's rubber, swamp rubber and tropical rubber woods** are in the tag (IndustrialUpgrade
+adds them itself) but use a non-standard orientation property. The mod handles that property by name,
+with no hard dependency, so nothing breaks if IndustrialUpgrade is absent or updated.
 
 ## Configuration
 
@@ -50,6 +52,10 @@ client-only code and no networking, so single-player and dedicated servers behav
   still laid flat, but the client first shows the vertical log until the server's block update
   arrives (a brief flicker). With the mod on the client only, the client predicts a flat log and the
   server's vertical one replaces it.
+- Placements by machines that act as a fake player (Create's deployer, for example) count as player
+  placements. With the default `requireSneak = true` they are left as vanilla places them, since the
+  deployer never sneaks; with `requireSneak = false` their logs are laid flat along the machine's facing
+  as well. Dispensers place without a player and are never affected.
 - A server-side backstop (`BlockEvent.EntityPlaceEvent`, which NeoForge posts on the server only)
   still lays flat logs placed by modded items that do not place through `BlockItem`; those may
   flicker as before.
@@ -78,3 +84,5 @@ not sneaking), and checks that the log the client shows right after the click �
 before the server answers — already has the server's orientation. The result is written to
 `run-clientcheck/loglayer-check.txt` and the game quits. The check lives in `src/clienttest` and is not
 part of the mod jar. (With the mixin left out, the two sneaking cases fail: the client predicts `axis=y`.)
+
+There is no CI; the build and the client check are run by hand before each release.

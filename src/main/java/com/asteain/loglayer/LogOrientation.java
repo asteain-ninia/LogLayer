@@ -32,6 +32,8 @@ public final class LogOrientation {
      * this mod never receives it, so the client leaves the log as placed.</p>
      */
     public static BlockState layFlat(BlockState placed, Player player) {
+        // The mixin sees every BlockItem, and Block#getStateForPlacement may return null ("cannot be placed here").
+        // A placement by a block (a dispenser, say) has no player.
         if (placed == null || player == null || !Config.SPEC.isLoaded() || !Config.ENABLED.get()) {
             return placed;
         }
@@ -49,6 +51,8 @@ public final class LogOrientation {
     }
 
     private static boolean isLogLike(BlockState state) {
+        // IndustrialUpgrade's rubber woods get in here through the tag: IU adds them to #minecraft:logs itself
+        // (IndustrialUpgrade 3.4.0.11). They have no vanilla axis property, so affectAllAxisBlocks would not catch them.
         if (state.is(BlockTags.LOGS)) {
             return true;
         }
