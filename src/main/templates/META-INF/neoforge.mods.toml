@@ -1,15 +1,21 @@
 modLoader="javafml"
 loaderVersion="${loader_version_range}"
 license="${mod_license}"
+issueTrackerURL="https://github.com/asteain-ninia/LogLayer/issues"
 
 [[mods]]
 modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
+displayURL="https://github.com/asteain-ninia/LogLayer"
 authors="${mod_authors}"
 description='''
 ${mod_description}
 '''
+
+# Lays the log flat while BlockItem chooses its placement state (client prediction and server alike).
+[[mixins]]
+config="${mod_id}.mixins.json"
 
 [[dependencies.${mod_id}]]
 modId="neoforge"
